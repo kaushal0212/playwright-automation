@@ -9,6 +9,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
+     # Get code from GitHub repository
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
@@ -17,6 +18,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+            # Run Playwright tests
     - name: Run Playwright tests
       run: npx playwright test
     - uses: actions/upload-artifact@v4
