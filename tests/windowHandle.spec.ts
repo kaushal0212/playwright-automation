@@ -17,7 +17,7 @@ test("Login test", async({page})=>{
   await page.locator('i:has-text("Login")').click()
 })
 
-test.only("Multipal window handel",async ({page,context})=>{
+test("Multipal window handel",async ({page,context})=>{
   await page.goto("https://the-internet.herokuapp.com/");
  await page.getByText('Multiple Windows',{ exact: true}).click();
   const [newTab] = await Promise.all([

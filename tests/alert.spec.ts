@@ -7,7 +7,7 @@ test('Alert test',async({page,context}) =>{
      page.on('dialog',async (dialog)=>
 
      {
-          await page.pause();
+         // await page.pause();
         
         console.log(dialog.message());
         await dialog.accept();

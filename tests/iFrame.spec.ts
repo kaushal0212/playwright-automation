@@ -11,11 +11,11 @@ test('Handel iFrame', async({page})=>{
    console.log(headingText)
 })
 
-test.only('Select Alert', async ({page})=>{
+test('Select Alert', async ({page})=>{
     await page.goto("https://demoqa.com/")
     await page.getByRole("heading",{name: "Alerts, Frame & Windows"}).click();
     await page.getByRole('link',{name: 'Alerts'}).click()
-   await page.pause();
+ //  await page.pause();
 // select Click Button to see alert Button -> Click me
 page.on('dialog',async dialog =>{
     console.log(dialog.message()); // Get alert text
