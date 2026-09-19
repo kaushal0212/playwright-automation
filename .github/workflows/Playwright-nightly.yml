@@ -1,0 +1,112 @@
+# =========================================================
+# NIGHTLY PLAYWRIGHT TESTS
+# =========================================================
+
+# Name displayed in GitHub Actions
+name: Playwright Nightly Tests
+
+
+# =========================================================
+# WHEN SHOULD THIS WORKFLOW RUN?
+# =========================================================
+on:
+
+  # -------------------------------------------------------
+  # Schedule
+  # -------------------------------------------------------
+  # Run automatically using a cron schedule.
+  # -------------------------------------------------------
+  schedule:
+
+    # Run every day at 2:00 AM UTC
+    - cron: '0 23 * * *'
+
+
+  # -------------------------------------------------------
+  # Allow someone to manually start the nightly workflow
+  # from GitHub Actions.
+  # -------------------------------------------------------
+  workflow_dispatch:
+
+
+# =========================================================
+# JOBS
+# =========================================================
+jobs:
+
+  # Job ID
+  nightly-test:
+
+    # Maximum execution time
+    timeout-minutes: 60
+
+    # GitHub-hosted Ubuntu runner
+    runs-on: ubuntu-latest
+
+
+    # =====================================================
+    # STEPS
+    # =====================================================
+    steps:
+
+
+      # ---------------------------------------------------
+      # STEP 1: Get source code
+      # ---------------------------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+
+      # ---------------------------------------------------
+      # STEP 2: Install Node.js
+      # ---------------------------------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+
+          # Install latest Node.js LTS version
+          node-version: lts/*
+
+
+      # ---------------------------------------------------
+      # STEP 3: Install project dependencies
+      # ---------------------------------------------------
+      - name: Install dependencies
+        run: npm ci
+
+
+      # ---------------------------------------------------
+      # STEP 4: Install Playwright browsers
+      # ---------------------------------------------------
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+
+      # ---------------------------------------------------
+      # STEP 5: Run Playwright tests
+      # ---------------------------------------------------
+      - name: Run Nightly Playwright Tests
+        run: npx playwright test
+
+
+      # ---------------------------------------------------
+      # STEP 6: Upload Playwright report
+      # ---------------------------------------------------
+      - name: Upload Playwright report
+
+        # Even if tests fail, upload the report.
+        # This is important for debugging nightly failures.
+        if: ${{ !cancelled() }}
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          # Artifact name
+          name: playwright-nightly-report
+
+          # Playwright report directory
+          path: playwright-report/
+
+          # Keep report for 30 days
+          retention-days: 30
