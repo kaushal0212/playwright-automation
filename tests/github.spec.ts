@@ -10,5 +10,6 @@ test('Login test', async ({ page }) => {
     await page.getByLabel("Password").fill("TEST")
     // await page.getByRole('button', { name: 'Sign in' }).click();
 //    await page.getByRole('button', { name: 'Sign in' ,exact:true}).click();
-    await page.getByRole('button',{name:'Sign in',exact:true}).click();
+   // await page.getByRole('button',{name:'Sign in',exact:true}).click();
+    await page.locator('input[type="submit"][value="Sign in"]').click();
 });
