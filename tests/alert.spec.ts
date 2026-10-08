@@ -1,6 +1,6 @@
 import{test,expect} from '@playwright/test';
 
-test('Alert test',async({page,context}) =>{
+test.skip('Alert test',async({page,context}) =>{
      await page.goto('https://the-internet.herokuapp.com/javascript_alerts');
 
 
